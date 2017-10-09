@@ -6,11 +6,11 @@
         margin: 0px;
         padding: 0px;
       }
-
+	
     </style>
   </head>
   <body>
-  <form action="/action_page.php" id = "form" onsubmit="start()">
+  <!--<form action="/action_page.php" id = "form" onsubmit="start()">
 		BF:<br>
 		<input type="number" min="0"  name="BF"  id="BF" ><br>
 			EF:<br>
@@ -20,7 +20,7 @@
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
 <button id='pause'>Pause</button>
 <button id='continue'>Continue</button>
-<br>
+<br>-->
 
 	<!--<label class="switch">
 	  <input type="checkbox" checked>
@@ -28,7 +28,6 @@
 	</label><br><br>-->
     <canvas id="myCanvas" width="800" height="800"></canvas>
     <script>
-	
       window.requestAnimFrame = (function(callback) {
         return window.requestAnimationFrame || 
 		window.webkitRequestAnimationFrame || 
@@ -40,10 +39,8 @@
         };
       })();
 	  
-	  
-	  
 	  // animation will pause when paused==true
-		var paused=false;
+		/*var paused=false;
 
 		// pause the animation on #pause click
 		$('#pause').on('click',function(){
@@ -54,8 +51,7 @@
 		$('#continue').on('click',function(){
 		  paused=false;
 		  window.requestAnimFrame(animate);
-		});
-		
+		});*/
 		
       function draw(myLink, ctx) {
         ctx.beginPath();
@@ -79,10 +75,8 @@
         ctx.stroke();
       }
 	  
-	 
-	  
       function animate(aLink, bLink, cLink, dLink, eLink,beLink, ceLink, canvas, ctx, startTime) {
-	  if(paused){return;}
+	  //if(paused){return;}
         // update
         var time = (new Date()).getTime() - startTime;
 
@@ -102,7 +96,12 @@
 		ctx.save();  // [M1,M0]
 		ctx.save();
 		alpha = -th1;
-		ctx.rotate(alpha);
+		// patikrinu kada apacia ar virsus, 
+		//if (((th1)%(Math.PI*2)) > Math.PI){ 
+			ctx.rotate(alpha);   // apacia piesia, kaip buvo
+		/*}else{
+			ctx.rotate(-alpha);   // sukasi virsus, baigia begalybe piest
+		}*/
 		draw(aLink, ctx);
 		
         var BD = Math.sqrt( aLink.width*aLink.width + bLink.width*bLink.width - 2*aLink.width*bLink.width*Math.cos(alpha) );
@@ -114,11 +113,11 @@
 		
 		var charlie = Math.acos(( aLink.width*aLink.width + bLink.width*bLink.width - BD*BD)/(2*aLink.width*bLink.width)); // tas pats kas gama
 		
-		var BF = document.getElementById("BF").value; //paimti skaiciu 
+		/*var BF = document.getElementById("BF").value; //paimti skaiciu 
 		console.log("BF" + BF);
-		var EF = document.getElementById("EF").value; //paimti skaiciu 
-		dLink.width = 150;	
-		eLink.width = 80;
+		var EF = document.getElementById("EF").value; //paimti skaiciu */
+		dLink.width = 80;	
+		eLink.width = 150;
 		
 		var BE = Math.sqrt(eLink.width * eLink.width + dLink.width * dLink.width);
 		var psi = Math.acos((BE * BE + dLink.width * dLink.width - eLink.width *  eLink.width) / (2 * BE * dLink.width)); // kampas EBF
@@ -127,46 +126,103 @@
 		var fce = Math.acos((FC * FC + ceLink.width * ceLink.width - eLink.width *  eLink.width) / (2 * FC * ceLink.width)); // kampas FCE
 		//console.log("FEC" + fce);
 		
+		// suristi lokalius taskus su AD, nes nejuda
+		// lokalines koord paskaiciuot
+		// tam reikia,jei risame prie tasko AD
+		//-dvi transformacijos
+		//norint gausi senas reikia padauginti is dvieju koord?
+		//apsk visus taskus piesiant arba piesimo metu suvaryt i atminti, jei atminti -tai bet kada galima piesti, iki 1000tasku pakanka i atminti idet
+		
+		//ab,bc kitos koord.
+		
+		// padaryti kai virsuj antilygiagretainis, o apacioj lygiaigretainis ir atvirksciai su 720laipsniu
+		// galima daryt kai virsuj eina lygiagretainis ir apacioj lygiagretainis ir t.t. (tipo dar atvirksciai reikia nupiest) galima perjungti kampa
         ctx.translate(aLink.width,0);
-		if (((th1)%(Math.PI*2)) > Math.PI){
-		// uz apacios veikima atsakingas
-		       
-		        ctx.rotate(Math.PI+theta);
-				cLink.width = BD; // galim priskirti kadangi, niekam nera priskirtas
-				//draw(cLink, ctx); // zalia BD piesia
-				ctx.rotate(-beta);	
-				
-		 		draw(bLink, ctx);  // BC
-				ctx.save();
-				draw(dLink,ctx);       // BF (turetu buti reguliuojamas)
-				
-				// BE piesia
-				ctx.save();
-				ctx.rotate(-psi);
-				beLink.width = BE;
-				draw(beLink,ctx);
-				ctx.restore();
-				
-				ctx.translate(dLink.width,0);
-				ctx.rotate(-Math.PI/2);
-				draw(eLink,ctx);
-				
-				ctx.rotate(Math.PI/2);
-				ctx.translate(bLink.width - dLink.width,0);
-				
-				// CE piesia
-				ctx.rotate(Math.PI + fce);
-                draw(ceLink, ctx);
-				
-				ctx.restore();
-				ctx.translate(bLink.width,0);
-				//console.log("Charlie" + charlie):
-				ctx.rotate(Math.PI-charlie);
-				draw(aLink, ctx);  // CD
-				
+	
+	
+		// dvi skirtingos busenos - jei atimam - viena busena, jei pridedam - kita busena
+		// tetha pasikeicia
+		if (((th1)%(Math.PI*2)) > Math.PI){  // Math.PI * 2
+		// APACIA pirmoji
+			ctx.rotate(Math.PI+theta);
+			cLink.width = BD; 
+			//draw(cLink, ctx); // BD istrizaine
+			ctx.rotate(-beta);				
+	 		draw(bLink, ctx);  // BC
+			ctx.save();
+			draw(dLink,ctx);       // BF 
+			// BE 
+			ctx.save();
+			ctx.rotate(-psi);
+			beLink.width = BE;
+			draw(beLink,ctx);
+			ctx.restore();
+			ctx.translate(dLink.width,0);
+			ctx.rotate(-Math.PI/2);
+			draw(eLink,ctx);
+			ctx.rotate(Math.PI/2);
+			ctx.translate(bLink.width - dLink.width,0);	
+			// CE piesia
+			ctx.rotate(Math.PI + fce);
+            draw(ceLink, ctx);
+			ctx.restore();
+			ctx.translate(bLink.width,0);
+			ctx.rotate(Math.PI-charlie);
+			draw(aLink, ctx);  // CD	
+	
+/*		
+// APACIA kai ta pati busena, TA PATI, KAIP VIRSUS, PIESIA APSKRITIMA
+			ctx.rotate(Math.PI+theta);
+			cLink.width = BD; 
+			//draw(cLink, ctx); // BD istrizaine
+			ctx.rotate(beta);	// PAKEICIAU kad apacia kaip virsus butu, buvo su minusu		
+	 		draw(bLink, ctx);  // BC
+			ctx.save();
+			draw(dLink,ctx);       // BF 
+			// BE 
+			ctx.save();
+			ctx.rotate(-psi);
+			beLink.width = BE;
+			draw(beLink,ctx);
+			ctx.restore();
+			ctx.translate(dLink.width,0);
+			ctx.rotate(-Math.PI/2);
+			draw(eLink,ctx);
+			ctx.rotate(Math.PI/2);
+			ctx.translate(bLink.width - dLink.width,0);	
+			// CE piesia
+			ctx.rotate(Math.PI + fce);
+            draw(ceLink, ctx);
+			ctx.restore();
+			ctx.translate(bLink.width,0);
+			ctx.rotate(-Math.PI+charlie); // PAKEICIAU kad apacia kaip virsus butu	
+			draw(aLink, ctx);  // CD
+	*/
 		}else{
-			ctx.rotate(/*-Math.PI+theta + */gamma); // uzkomentinau 127 pridejau gamma
+	/*	// VIRSUS pirmas
+			ctx.rotate(gamma); // -Math.PI+theta
 			draw(bLink, ctx); // BC
+			draw(dLink,ctx);       // BF (turetu buti reguliuojamas)
+			// BE piesia
+			ctx.save();
+			ctx.rotate(-psi);
+			beLink.width = BE;
+			draw(beLink,ctx);
+			ctx.restore();
+			ctx.save();
+			ctx.translate(dLink.width,0);
+			ctx.rotate(-Math.PI/2);
+			draw(eLink,ctx);   // EF
+			ctx.restore();
+			// CE piesia
+			ctx.translate(bLink.width,0);
+			ctx.rotate(Math.PI + fce);
+            draw(ceLink, ctx);
+		*/
+			ctx.rotate(/*gamma*/Math.PI-theta); // -Math.PI+theta
+			ctx.rotate(beta); // SUGALVOJAU
+			draw(bLink, ctx); // BC
+			
 			draw(dLink,ctx);       // BF (turetu buti reguliuojamas)
 			// BE piesia
 			ctx.save();
@@ -185,48 +241,40 @@
             draw(ceLink, ctx);
 		}
 
-		ctx.restore();  // M0 [M0]		
+		ctx.restore();  // M0 [M0]	
         ctx.translate(bLink.width,0);
 		alpha = -Math.PI/180*t;
 		
 		///pasukimai skirti nupiesti
-	   if (((Math.PI/180*t)%(Math.PI*2))>Math.PI){
+	    if (((Math.PI/180*t)%(Math.PI*2))>Math.PI){
 		 
 		}
 		else{ // skirta nupiesti CD
-		ctx.rotate(alpha);
-		draw(aLink, ctx);  
+		// TIKRINTI KADA KA REIKIA PIEST, vienu is var bus rotate(-alpha)??? dar gite paziuret
+			ctx.rotate(Math.PI + (-(-alpha - (Math.PI-theta) - beta + Math.PI-charlie)));      //????????????????????????? I KITA PUSE SUKASI CD, nebuvo minuso, kampas -alpha
+			draw(aLink, ctx);  
 		}
-	
         ctx.restore(); // M1 [M0] 
         draw(bLink, ctx); // AD
         ctx.restore(); // M0 [] 
 		
-		
-		/*ctx.moveTo(300+bLink.width + dLink.width - eLink.width,400);
-		ctx.lineTo(300+bLink.width + dLink.width - eLink.width,200);
-		ctx.stroke();
-		*/
-		
-		
-		
+		// piest taskus
         requestAnimFrame(function() {
           animate(aLink, bLink, cLink, dLink, eLink, beLink, ceLink, canvas, ctx, startTime);
         });
-		
       }
 	  
       var canvas = document.getElementById('myCanvas');
       var ctx = canvas.getContext('2d');
 
-      var aLink = {
+      var aLink = { // AB, CD
         color: '#B40431',
         width: 150,
         off: 10,
         borderWidth: 4
       };
 
-      var bLink = {
+      var bLink = { // BE, AD
         color: '#B40431',
         width: 250,
         off: 10,
@@ -268,14 +316,8 @@
        borderWidth: 4
       };
 	  
-      //draw(myLink, ctx);
-
-      // wait one second before starting animation
-//      setTimeout(function() {
-        var startTime = (new Date()).getTime();
-        animate(aLink, bLink, cLink, dLink, eLink, beLink, ceLink, canvas, ctx, startTime);
-//      }, 1000);
-
+    var startTime = (new Date()).getTime();
+    animate(aLink, bLink, cLink, dLink, eLink, beLink, ceLink, canvas, ctx, startTime);
 				
     </script>
   
