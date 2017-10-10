@@ -6,7 +6,7 @@
         margin: 0px;
         padding: 0px;
       }
-	
+		
     </style>
   </head>
   <body>
@@ -41,6 +41,7 @@
 	  
 		var pathOfCornerCrossing = new Array();
 		 var math2PIcounter = 0;
+		 var circleCounter = 0;
       function draw(myLink, ctx) {
         ctx.beginPath();
         ctx.rect(-myLink.off, -myLink.off, myLink.width+2*myLink.off, 2*myLink.off);
@@ -156,221 +157,226 @@
 	
 		if (((th1)%(Math.PI*8)) > 6*Math.PI){  // ketvirtas ratas prasideda
 			math2PIcounter = 4;
-		}else if (((th1)%(Math.PI*6)) > 4*Math.PI){  // trecias ratas prasideda
+		}else if (((th1)%(Math.PI*6)) > 4*Math.PI && ((th1)%(Math.PI*4)) < 2*Math.PI){  // trecias ratas prasideda
 			math2PIcounter = 3;
 		}else if (((th1)%(Math.PI*4)) > 2*Math.PI){  // antras ratas prasideda
 			math2PIcounter = 2;
 		}else if (((th1)%(Math.PI*2)) > 0){  // pirmas ratas prasideda
 			math2PIcounter = 1;
 		}
-	
-	
-	
+		//console.log("COUNTER " + math2PIcounter);
+		switch (math2PIcounter){
+			case 1:
+				// VIRSUJ APSK, APACIOJ BEGALYBE
+				if (((th1)%(Math.PI*2)) > Math.PI){  // Math.PI * 2
+				// APACIA pirmoji
+					ctx.rotate(Math.PI+theta);
+					cLink.width = BD; 
+					//draw(cLink, ctx); // BD istrizaine
+					ctx.rotate(-beta);				
+					draw(bLink, ctx);  // BC
+					ctx.save();
+					draw(dLink,ctx);       // BF 
+					// BE 
+					ctx.save();
+					ctx.rotate(-psi);
+					beLink.width = BE;
+					draw(beLink,ctx);
+					ctx.restore();
+					ctx.translate(dLink.width,0);
+					ctx.rotate(-Math.PI/2);
+					draw(eLink,ctx);
+					ctx.rotate(Math.PI/2);
+					ctx.translate(bLink.width - dLink.width,0);	
+					// CE piesia
+					ctx.rotate(Math.PI + fce);
+					draw(ceLink, ctx);
+					ctx.restore();
+					ctx.translate(bLink.width,0);
+					ctx.rotate(Math.PI-charlie);
+					draw(aLink, ctx);  // CD	
+				}else{
+				// VIRSUS pirmas
+					ctx.rotate(gamma); // -Math.PI+theta
+					draw(bLink, ctx); // BC
+					draw(dLink,ctx);       // BF (turetu buti reguliuojamas)
+					// BE piesia
+					ctx.save();
+					ctx.rotate(-psi);
+					beLink.width = BE;
+					draw(beLink,ctx);
+					ctx.restore();
+					ctx.save();
+					ctx.translate(dLink.width,0);
+					ctx.rotate(-Math.PI/2);
+					draw(eLink,ctx);   // EF
+					ctx.restore();
+					// CE piesia
+					ctx.translate(bLink.width,0);
+					ctx.rotate(Math.PI + fce);
+					draw(ceLink, ctx);
+				}
+			break;
+			case 2:
+				// VIRSUJ BEGALYBE, APACIOJ APSKRITIMAS
+				if (((th1)%(Math.PI*2)) > Math.PI){  // Math.PI * 2	
+				// APACIA kai ta pati busena, TA PATI, KAIP VIRSUS, PIESIA APSKRITIMA
+					ctx.rotate(Math.PI+theta);
+					cLink.width = BD; 
+					//draw(cLink, ctx); // BD istrizaine
+					ctx.rotate(beta);	// PAKEICIAU kad apacia kaip virsus butu, buvo su minusu		
+					draw(bLink, ctx);  // BC
+					ctx.save();
+					draw(dLink,ctx);       // BF 
+					// BE 
+					ctx.save();
+					ctx.rotate(-psi);
+					beLink.width = BE;
+					draw(beLink,ctx);
+					ctx.restore();
+					ctx.translate(dLink.width,0);
+					ctx.rotate(-Math.PI/2);
+					draw(eLink,ctx);
+					ctx.rotate(Math.PI/2);
+					ctx.translate(bLink.width - dLink.width,0);	
+					// CE piesia
+					ctx.rotate(Math.PI + fce);
+					draw(ceLink, ctx);
+					ctx.restore();
+					ctx.translate(bLink.width,0);
+					ctx.rotate(-Math.PI+charlie); // PAKEICIAU kad apacia kaip virsus butu	
+					draw(aLink, ctx);  // CD
+				}else{
+					ctx.rotate(Math.PI-theta); // -Math.PI+theta, buvo gamma
+					ctx.rotate(beta); // SUGALVOJAU
+					draw(bLink, ctx); // BC
+					
+					draw(dLink,ctx);       // BF (turetu buti reguliuojamas)
+					// BE piesia
+					ctx.save();
+					ctx.rotate(-psi);
+					beLink.width = BE;
+					draw(beLink,ctx);
+					ctx.restore();
+					ctx.save();
+					ctx.translate(dLink.width,0);
+					ctx.rotate(-Math.PI/2);
+					draw(eLink,ctx);   // EF
+					ctx.restore();
+					// CE piesia
+					ctx.translate(bLink.width,0);
+					ctx.rotate(Math.PI + fce);
+					draw(ceLink, ctx);
+				}
+			break;
+			case 3:
+				//APSKRITIMAS
+				if (((th1)%(Math.PI*2)) > Math.PI){  // Math.PI * 2	
+				// APACIA kai ta pati busena, TA PATI, KAIP VIRSUS, PIESIA APSKRITIMA
+					ctx.rotate(Math.PI+theta);
+					cLink.width = BD; 
+					//draw(cLink, ctx); // BD istrizaine
+					ctx.rotate(beta);	// PAKEICIAU kad apacia kaip virsus butu, buvo su minusu		
+					draw(bLink, ctx);  // BC
+					ctx.save();
+					draw(dLink,ctx);       // BF 
+					// BE 
+					ctx.save();
+					ctx.rotate(-psi);
+					beLink.width = BE;
+					draw(beLink,ctx);
+					ctx.restore();
+					ctx.translate(dLink.width,0);
+					ctx.rotate(-Math.PI/2);
+					draw(eLink,ctx);
+					ctx.rotate(Math.PI/2);
+					ctx.translate(bLink.width - dLink.width,0);	
+					// CE piesia
+					ctx.rotate(Math.PI + fce);
+					draw(ceLink, ctx);
+					ctx.restore();
+					ctx.translate(bLink.width,0);
+					ctx.rotate(-Math.PI+charlie); // PAKEICIAU kad apacia kaip virsus butu	
+					draw(aLink, ctx);  // CD
+				}else{
+				// VIRSUS pirmas
+					ctx.rotate(gamma); // -Math.PI+theta
+					draw(bLink, ctx); // BC
+					draw(dLink,ctx);       // BF (turetu buti reguliuojamas)
+					// BE piesia
+					ctx.save();
+					ctx.rotate(-psi);
+					beLink.width = BE;
+					draw(beLink,ctx);
+					ctx.restore();
+					ctx.save();
+					ctx.translate(dLink.width,0);
+					ctx.rotate(-Math.PI/2);
+					draw(eLink,ctx);   // EF
+					ctx.restore();
+					// CE piesia
+					ctx.translate(bLink.width,0);
+					ctx.rotate(Math.PI + fce);
+					draw(ceLink, ctx);
+				}
+			break;
+			case 4:
+				// BEGALYBE
+				if (((th1)%(Math.PI*2)) > Math.PI){  // Math.PI * 2
+				// APACIA pirmoji
+					ctx.rotate(Math.PI+theta);
+					cLink.width = BD; 
+					//draw(cLink, ctx); // BD istrizaine
+					ctx.rotate(-beta);				
+					draw(bLink, ctx);  // BC
+					ctx.save();
+					draw(dLink,ctx);       // BF 
+					// BE 
+					ctx.save();
+					ctx.rotate(-psi);
+					beLink.width = BE;
+					draw(beLink,ctx);
+					ctx.restore();
+					ctx.translate(dLink.width,0);
+					ctx.rotate(-Math.PI/2);
+					draw(eLink,ctx);
+					ctx.rotate(Math.PI/2);
+					ctx.translate(bLink.width - dLink.width,0);	
+					// CE piesia
+					ctx.rotate(Math.PI + fce);
+					draw(ceLink, ctx);
+					ctx.restore();
+					ctx.translate(bLink.width,0);
+					ctx.rotate(Math.PI-charlie);
+					draw(aLink, ctx);  // CD	
+				}else{
+				ctx.rotate(Math.PI-theta); // -Math.PI+theta, buvo gamma
+					ctx.rotate(beta); // SUGALVOJAU
+					draw(bLink, ctx); // BC
+					
+					draw(dLink,ctx);       // BF (turetu buti reguliuojamas)
+					// BE piesia
+					ctx.save();
+					ctx.rotate(-psi);
+					beLink.width = BE;
+					draw(beLink,ctx);
+					ctx.restore();
+					ctx.save();
+					ctx.translate(dLink.width,0);
+					ctx.rotate(-Math.PI/2);
+					draw(eLink,ctx);   // EF
+					ctx.restore();
+					// CE piesia
+					ctx.translate(bLink.width,0);
+					ctx.rotate(Math.PI + fce);
+					draw(ceLink, ctx);
+				}
+			break;
+			default: console.log("ERROR. 1st switch. " + math2PIcounter);
+		}
 		// dvi skirtingos busenos - jei atimam - viena busena, jei pridedam - kita busena
 		// tetha pasikeicia
 		
-		/*// BEGALYBE
-		if (((th1)%(Math.PI*2)) > Math.PI){  // Math.PI * 2
-		// APACIA pirmoji
-			ctx.rotate(Math.PI+theta);
-			cLink.width = BD; 
-			//draw(cLink, ctx); // BD istrizaine
-			ctx.rotate(-beta);				
-	 		draw(bLink, ctx);  // BC
-			ctx.save();
-			draw(dLink,ctx);       // BF 
-			// BE 
-			ctx.save();
-			ctx.rotate(-psi);
-			beLink.width = BE;
-			draw(beLink,ctx);
-			ctx.restore();
-			ctx.translate(dLink.width,0);
-			ctx.rotate(-Math.PI/2);
-			draw(eLink,ctx);
-			ctx.rotate(Math.PI/2);
-			ctx.translate(bLink.width - dLink.width,0);	
-			// CE piesia
-			ctx.rotate(Math.PI + fce);
-            draw(ceLink, ctx);
-			ctx.restore();
-			ctx.translate(bLink.width,0);
-			ctx.rotate(Math.PI-charlie);
-			draw(aLink, ctx);  // CD	
-		}else{
-		ctx.rotate(Math.PI-theta); // -Math.PI+theta, buvo gamma
-			ctx.rotate(beta); // SUGALVOJAU
-			draw(bLink, ctx); // BC
-			
-			draw(dLink,ctx);       // BF (turetu buti reguliuojamas)
-			// BE piesia
-			ctx.save();
-			ctx.rotate(-psi);
-			beLink.width = BE;
-			draw(beLink,ctx);
-			ctx.restore();
-			ctx.save();
-			ctx.translate(dLink.width,0);
-			ctx.rotate(-Math.PI/2);
-			draw(eLink,ctx);   // EF
-			ctx.restore();
-			// CE piesia
-			ctx.translate(bLink.width,0);
-			ctx.rotate(Math.PI + fce);
-            draw(ceLink, ctx);
-		}
-	*/
-		/*//APSKRITIMAS
-		if (((th1)%(Math.PI*2)) > Math.PI){  // Math.PI * 2	
-// APACIA kai ta pati busena, TA PATI, KAIP VIRSUS, PIESIA APSKRITIMA
-			ctx.rotate(Math.PI+theta);
-			cLink.width = BD; 
-			//draw(cLink, ctx); // BD istrizaine
-			ctx.rotate(beta);	// PAKEICIAU kad apacia kaip virsus butu, buvo su minusu		
-	 		draw(bLink, ctx);  // BC
-			ctx.save();
-			draw(dLink,ctx);       // BF 
-			// BE 
-			ctx.save();
-			ctx.rotate(-psi);
-			beLink.width = BE;
-			draw(beLink,ctx);
-			ctx.restore();
-			ctx.translate(dLink.width,0);
-			ctx.rotate(-Math.PI/2);
-			draw(eLink,ctx);
-			ctx.rotate(Math.PI/2);
-			ctx.translate(bLink.width - dLink.width,0);	
-			// CE piesia
-			ctx.rotate(Math.PI + fce);
-            draw(ceLink, ctx);
-			ctx.restore();
-			ctx.translate(bLink.width,0);
-			ctx.rotate(-Math.PI+charlie); // PAKEICIAU kad apacia kaip virsus butu	
-			draw(aLink, ctx);  // CD
-		}else{
-		// VIRSUS pirmas
-			ctx.rotate(gamma); // -Math.PI+theta
-			draw(bLink, ctx); // BC
-			draw(dLink,ctx);       // BF (turetu buti reguliuojamas)
-			// BE piesia
-			ctx.save();
-			ctx.rotate(-psi);
-			beLink.width = BE;
-			draw(beLink,ctx);
-			ctx.restore();
-			ctx.save();
-			ctx.translate(dLink.width,0);
-			ctx.rotate(-Math.PI/2);
-			draw(eLink,ctx);   // EF
-			ctx.restore();
-			// CE piesia
-			ctx.translate(bLink.width,0);
-			ctx.rotate(Math.PI + fce);
-            draw(ceLink, ctx);
-		}
-		*/
-	/*	// VIRSUJ APSK, APACIOJ BEGALYBE
-		if (((th1)%(Math.PI*2)) > Math.PI){  // Math.PI * 2
-		// APACIA pirmoji
-			ctx.rotate(Math.PI+theta);
-			cLink.width = BD; 
-			//draw(cLink, ctx); // BD istrizaine
-			ctx.rotate(-beta);				
-	 		draw(bLink, ctx);  // BC
-			ctx.save();
-			draw(dLink,ctx);       // BF 
-			// BE 
-			ctx.save();
-			ctx.rotate(-psi);
-			beLink.width = BE;
-			draw(beLink,ctx);
-			ctx.restore();
-			ctx.translate(dLink.width,0);
-			ctx.rotate(-Math.PI/2);
-			draw(eLink,ctx);
-			ctx.rotate(Math.PI/2);
-			ctx.translate(bLink.width - dLink.width,0);	
-			// CE piesia
-			ctx.rotate(Math.PI + fce);
-            draw(ceLink, ctx);
-			ctx.restore();
-			ctx.translate(bLink.width,0);
-			ctx.rotate(Math.PI-charlie);
-			draw(aLink, ctx);  // CD	
-		}else{
-		// VIRSUS pirmas
-			ctx.rotate(gamma); // -Math.PI+theta
-			draw(bLink, ctx); // BC
-			draw(dLink,ctx);       // BF (turetu buti reguliuojamas)
-			// BE piesia
-			ctx.save();
-			ctx.rotate(-psi);
-			beLink.width = BE;
-			draw(beLink,ctx);
-			ctx.restore();
-			ctx.save();
-			ctx.translate(dLink.width,0);
-			ctx.rotate(-Math.PI/2);
-			draw(eLink,ctx);   // EF
-			ctx.restore();
-			// CE piesia
-			ctx.translate(bLink.width,0);
-			ctx.rotate(Math.PI + fce);
-            draw(ceLink, ctx);
-		}
-		*/
-		// VIRSUJ BEGALYBE, APACIOJ APSKRITIMAS
-		if (((th1)%(Math.PI*2)) > Math.PI){  // Math.PI * 2	
-// APACIA kai ta pati busena, TA PATI, KAIP VIRSUS, PIESIA APSKRITIMA
-			ctx.rotate(Math.PI+theta);
-			cLink.width = BD; 
-			//draw(cLink, ctx); // BD istrizaine
-			ctx.rotate(beta);	// PAKEICIAU kad apacia kaip virsus butu, buvo su minusu		
-	 		draw(bLink, ctx);  // BC
-			ctx.save();
-			draw(dLink,ctx);       // BF 
-			// BE 
-			ctx.save();
-			ctx.rotate(-psi);
-			beLink.width = BE;
-			draw(beLink,ctx);
-			ctx.restore();
-			ctx.translate(dLink.width,0);
-			ctx.rotate(-Math.PI/2);
-			draw(eLink,ctx);
-			ctx.rotate(Math.PI/2);
-			ctx.translate(bLink.width - dLink.width,0);	
-			// CE piesia
-			ctx.rotate(Math.PI + fce);
-            draw(ceLink, ctx);
-			ctx.restore();
-			ctx.translate(bLink.width,0);
-			ctx.rotate(-Math.PI+charlie); // PAKEICIAU kad apacia kaip virsus butu	
-			draw(aLink, ctx);  // CD
-		}else{
-		ctx.rotate(Math.PI-theta); // -Math.PI+theta, buvo gamma
-			ctx.rotate(beta); // SUGALVOJAU
-			draw(bLink, ctx); // BC
-			
-			draw(dLink,ctx);       // BF (turetu buti reguliuojamas)
-			// BE piesia
-			ctx.save();
-			ctx.rotate(-psi);
-			beLink.width = BE;
-			draw(beLink,ctx);
-			ctx.restore();
-			ctx.save();
-			ctx.translate(dLink.width,0);
-			ctx.rotate(-Math.PI/2);
-			draw(eLink,ctx);   // EF
-			ctx.restore();
-			// CE piesia
-			ctx.translate(bLink.width,0);
-			ctx.rotate(Math.PI + fce);
-            draw(ceLink, ctx);
-		}
-
 		ctx.restore();  // M0 [M0]	
         ctx.translate(bLink.width,0);
 		alpha = -Math.PI/180*t;
@@ -381,56 +387,82 @@
 		}
 		else{ // skirta nupiesti CD
 		// TIKRINTI KADA KA REIKIA PIEST, vienu is var bus rotate(-alpha)??? dar gite paziuret
-			// BEGALYBE, virsuj begalybe - apacioj apskritimas
-			ctx.rotate(Math.PI + (-(-alpha - (Math.PI-theta) - beta + Math.PI-charlie)));      //????????????????????????? I KITA PUSE SUKASI CD, nebuvo minuso, kampas -alpha
-			draw(aLink, ctx); 
-			/*//APSKRITIMAS, virsuj apskritimas - apacioj begalybe
-			ctx.rotate(alpha);      
-			draw(aLink, ctx); */
+			switch (math2PIcounter){
+				case 1:
+					//APSKRITIMAS, virsuj apskritimas - apacioj begalybe
+					ctx.rotate(alpha);      
+					draw(aLink, ctx);
+				break;
+				case 2:
+					// BEGALYBE, virsuj begalybe - apacioj apskritimas
+					ctx.rotate(Math.PI + (-(-alpha - (Math.PI-theta) - beta + Math.PI-charlie)));      //????????????????????????? I KITA PUSE SUKASI CD, nebuvo minuso, kampas -alpha
+					draw(aLink, ctx);
+				break;
+				case 3:
+					//APSKRITIMAS, virsuj apskritimas - apacioj begalybe
+					ctx.rotate(alpha);      
+					draw(aLink, ctx);
+				break;
+				case 4:
+					// BEGALYBE, virsuj begalybe - apacioj apskritimas
+					ctx.rotate(Math.PI + (-(-alpha - (Math.PI-theta) - beta + Math.PI-charlie)));      //????????????????????????? I KITA PUSE SUKASI CD, nebuvo minuso, kampas -alpha
+					draw(aLink, ctx);
+				break;
+				default: console.log("ERROR. 2snd switch. " + math2PIcounter);
+			}
 		}
         ctx.restore(); // M1 [M0] 
         draw(bLink, ctx); // AD
 		ctx.restore(); // M0 [] 
 		
-		
-		
-		
 		//ctx.save();
 		var cornerCBE = calc(ceLink,bLink,beLink);
-		console.log("CORNER " + cornerCBE);
-		//APSKRITIMAS
-		/*if (((th1)%(Math.PI*2)) > Math.PI){
-		/// Math.PI+theta+beta-Math.PI+charlie blogai, bet kazkoki apskritima nupiesia
-			 pathOfCornerCrossing.push(Math.cos(-Math.PI/180*t) * aLink.width + Math.cos(-Math.PI/180*t +  Math.PI+theta+beta - cornerCBE) * beLink.width);
-			 pathOfCornerCrossing.push(Math.sin(-Math.PI/180*t) * aLink.width + Math.sin( -Math.PI/180*t + Math.PI+theta+beta - cornerCBE) * beLink.width);
-		}else{
-			 pathOfCornerCrossing.push(Math.cos(-Math.PI/180*t) * aLink.width + Math.cos(-Math.PI/180*t +  gamma - cornerCBE) * beLink.width);
-			 pathOfCornerCrossing.push(Math.sin(-Math.PI/180*t) * aLink.width + Math.sin( -Math.PI/180*t + gamma - cornerCBE) * beLink.width);
-		}*/
-		// BEGALYBE
-		/*if (((th1)%(Math.PI*2)) > Math.PI){
-			 pathOfCornerCrossing.push(Math.cos(-Math.PI/180*t) * aLink.width + Math.cos(-Math.PI/180*t +  Math.PI+theta-beta - cornerCBE) * beLink.width);
-			 pathOfCornerCrossing.push(Math.sin(-Math.PI/180*t) * aLink.width + Math.sin( -Math.PI/180*t + Math.PI+theta-beta - cornerCBE) * beLink.width);
-		}else{
-			 pathOfCornerCrossing.push(Math.cos(-Math.PI/180*t) * aLink.width + Math.cos(-Math.PI/180*t +  Math.PI-theta+beta - cornerCBE) * beLink.width);
-			 pathOfCornerCrossing.push(Math.sin(-Math.PI/180*t) * aLink.width + Math.sin( -Math.PI/180*t + Math.PI-theta+beta - cornerCBE) * beLink.width);
-		}*/
-		// VIRSUJ APSK, APACIOJ BEGALYBE
-		/*if (((th1)%(Math.PI*2)) > Math.PI){
-			 pathOfCornerCrossing.push(Math.cos(-Math.PI/180*t) * aLink.width + Math.cos(-Math.PI/180*t +  Math.PI+theta-beta - cornerCBE) * beLink.width);
-			 pathOfCornerCrossing.push(Math.sin(-Math.PI/180*t) * aLink.width + Math.sin( -Math.PI/180*t + Math.PI+theta-beta - cornerCBE) * beLink.width);
-		}else{
-			 pathOfCornerCrossing.push(Math.cos(-Math.PI/180*t) * aLink.width + Math.cos(-Math.PI/180*t +  gamma - cornerCBE) * beLink.width);
-			 pathOfCornerCrossing.push(Math.sin(-Math.PI/180*t) * aLink.width + Math.sin( -Math.PI/180*t + gamma - cornerCBE) * beLink.width);
-		}*/
-		// VIRSUJ BEGALYBE, APACIOJ APSKRITIMAS
-		if (((th1)%(Math.PI*2)) > Math.PI){
-			 pathOfCornerCrossing.push(Math.cos(-Math.PI/180*t) * aLink.width + Math.cos(-Math.PI/180*t +  Math.PI+theta+beta - cornerCBE) * beLink.width);
-			 pathOfCornerCrossing.push(Math.sin(-Math.PI/180*t) * aLink.width + Math.sin(-Math.PI/180*t + Math.PI+theta+beta - cornerCBE) * beLink.width);
-		}else{
-			 pathOfCornerCrossing.push(Math.cos(-Math.PI/180*t) * aLink.width + Math.cos(-Math.PI/180*t +  Math.PI-theta+beta - cornerCBE) * beLink.width);
-			 pathOfCornerCrossing.push(Math.sin(-Math.PI/180*t) * aLink.width + Math.sin( -Math.PI/180*t + Math.PI-theta+beta - cornerCBE) * beLink.width);
+		//console.log("CORNER " + cornerCBE);
+		switch (math2PIcounter){
+			case 1:
+				// VIRSUJ APSK, APACIOJ BEGALYBE
+				if (((th1)%(Math.PI*2)) > Math.PI){
+					 pathOfCornerCrossing.push(Math.cos(-Math.PI/180*t) * aLink.width + Math.cos(-Math.PI/180*t +  Math.PI+theta-beta - cornerCBE) * beLink.width);
+					 pathOfCornerCrossing.push(Math.sin(-Math.PI/180*t) * aLink.width + Math.sin( -Math.PI/180*t + Math.PI+theta-beta - cornerCBE) * beLink.width);
+				}else{
+					 pathOfCornerCrossing.push(Math.cos(-Math.PI/180*t) * aLink.width + Math.cos(-Math.PI/180*t +  gamma - cornerCBE) * beLink.width);
+					 pathOfCornerCrossing.push(Math.sin(-Math.PI/180*t) * aLink.width + Math.sin( -Math.PI/180*t + gamma - cornerCBE) * beLink.width);
+				}
+			break;
+			case 2:
+				// VIRSUJ BEGALYBE, APACIOJ APSKRITIMAS
+				if (((th1)%(Math.PI*2)) > Math.PI){
+					 pathOfCornerCrossing.push(Math.cos(-Math.PI/180*t) * aLink.width + Math.cos(-Math.PI/180*t +  Math.PI+theta+beta - cornerCBE) * beLink.width);
+					 pathOfCornerCrossing.push(Math.sin(-Math.PI/180*t) * aLink.width + Math.sin(-Math.PI/180*t + Math.PI+theta+beta - cornerCBE) * beLink.width);
+				}else{
+					 pathOfCornerCrossing.push(Math.cos(-Math.PI/180*t) * aLink.width + Math.cos(-Math.PI/180*t +  Math.PI-theta+beta - cornerCBE) * beLink.width);
+					 pathOfCornerCrossing.push(Math.sin(-Math.PI/180*t) * aLink.width + Math.sin( -Math.PI/180*t + Math.PI-theta+beta - cornerCBE) * beLink.width);
+				}
+			break;
+			case 3:
+				//APSKRITIMAS
+				if (((th1)%(Math.PI*2)) > Math.PI){
+				/// Math.PI+theta+beta-Math.PI+charlie blogai, bet kazkoki apskritima nupiesia
+					 pathOfCornerCrossing.push(Math.cos(-Math.PI/180*t) * aLink.width + Math.cos(-Math.PI/180*t +  Math.PI+theta+beta - cornerCBE) * beLink.width);
+					 pathOfCornerCrossing.push(Math.sin(-Math.PI/180*t) * aLink.width + Math.sin( -Math.PI/180*t + Math.PI+theta+beta - cornerCBE) * beLink.width);
+				}else{
+					 pathOfCornerCrossing.push(Math.cos(-Math.PI/180*t) * aLink.width + Math.cos(-Math.PI/180*t +  gamma - cornerCBE) * beLink.width);
+					 pathOfCornerCrossing.push(Math.sin(-Math.PI/180*t) * aLink.width + Math.sin( -Math.PI/180*t + gamma - cornerCBE) * beLink.width);
+				}
+			break;
+			case 4:
+				// BEGALYBE
+				if (((th1)%(Math.PI*2)) > Math.PI){
+					 pathOfCornerCrossing.push(Math.cos(-Math.PI/180*t) * aLink.width + Math.cos(-Math.PI/180*t +  Math.PI+theta-beta - cornerCBE) * beLink.width);
+					 pathOfCornerCrossing.push(Math.sin(-Math.PI/180*t) * aLink.width + Math.sin( -Math.PI/180*t + Math.PI+theta-beta - cornerCBE) * beLink.width);
+				}else{
+					 pathOfCornerCrossing.push(Math.cos(-Math.PI/180*t) * aLink.width + Math.cos(-Math.PI/180*t +  Math.PI-theta+beta - cornerCBE) * beLink.width);
+					 pathOfCornerCrossing.push(Math.sin(-Math.PI/180*t) * aLink.width + Math.sin( -Math.PI/180*t + Math.PI-theta+beta - cornerCBE) * beLink.width);
+				}
+			break;
+			default: console.log("ERROR. 3rd switch. " + math2PIcounter);
 		}
+		
 		if(pathOfCornerCrossing.length > 3000){
           pathOfCornerCrossing.reverse();
           pathOfCornerCrossing.pop();
