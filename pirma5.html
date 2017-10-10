@@ -6,26 +6,64 @@
         margin: 0px;
         padding: 0px;
       }
+	  .button {
+		background-color: #4CAF50; /* Green */
+		border: none;
+		color: black;
+		padding: 15px 32px;
+		text-align: center;
+		text-decoration: none;
+		font-size: 16px;
+		}
+		.button2:hover {
+			box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24), 0 17px 50px 0 rgba(0,0,0,0.19);
+		}
 		
+		#slidecontainer {
+    width: 100%; /* Width of the outside container */
+}
+
+	/* The slider itself */
+	.slider {
+		-webkit-appearance: none;  /* Override default CSS styles */
+		appearance: none;
+		width: 10%; /* Full-width */
+		height: 25px; /* Specified height */
+		background: #d3d3d3; /* Grey background */
+		outline: none; /* Remove outline */
+		opacity: 0.7; /* Set transparency (for mouse-over effects on hover) */
+		-webkit-transition: .2s; /* 0.2 seconds transition on hover */
+		transition: opacity .2s;
+	}
+
+	/* Mouse-over effects */
+	.slider:hover {
+		opacity: 1; /* Fully shown on mouse-over */
+	}
+
+	/* The slider handle (use webkit (Chrome, Opera, Safari, Edge) and moz (Firefox) to override default look) */ 
+	.slider::-webkit-slider-thumb {
+		-webkit-appearance: none; /* Override default look */
+		appearance: none;
+		width: 25px; /* Set a specific slider handle width */
+		height: 25px; /* Slider handle height */
+		background: #4CAF50; /* Green background */
+		cursor: pointer; /* Cursor on hover */
+	}
+
+	.slider::-moz-range-thumb {
+		width: 25px; /* Set a specific slider handle width */
+		height: 25px; /* Slider handle height */
+		background: #4CAF50; /* Green background */
+		cursor: pointer; /* Cursor on hover */
+	}
+	
+}
     </style>
   </head>
   <body>
-  <!--<form action="/action_page.php" id = "form" onsubmit="start()">
-		BF:<br>
-		<input type="number" min="0"  name="BF"  id="BF" ><br>
-			EF:<br>
-		<input type="number" min="0" name="EF" id="EF" ><br><br>
-		<input type="submit" value="Submit">
-	</form>
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
-<button id='pause'>Pause</button>
-<button id='continue'>Continue</button>
-<br>-->
-
-	<!--<label class="switch">
-	  <input type="checkbox" checked>
-	  <span class="slider round"></span>
-	</label><br><br>-->
+  <div id="container" align="center">
+	  <input type ="button" class = "button button2" value="Toggle animation" id=toggle> 
     <canvas id="myCanvas" width="800" height="800"></canvas>
     <script>
       window.requestAnimFrame = (function(callback) {
@@ -42,6 +80,14 @@
 		var pathOfCornerCrossing = new Array();
 		 var math2PIcounter = 0;
 		 var circleCounter = 0;
+		 
+		 document.getElementById('toggle').addEventListener('click',function(){
+		if(continueAnimating)
+		continueAnimating=false;
+		else
+		continueAnimating=true;
+		});	
+		 
       function draw(myLink, ctx) {
         ctx.beginPath();
         ctx.rect(-myLink.off, -myLink.off, myLink.width+2*myLink.off, 2*myLink.off);
@@ -93,9 +139,20 @@
 	  //if(paused){return;}
         // update
 		var abcCrossing;
-        var time = (new Date()).getTime() - startTime;
-
-        var t = time / 80;
+        //var time = (new Date()).getTime() - startTime;
+        //var t = time / 80;
+		
+		var is = false;
+		
+		if(continueAnimating)
+			t  = t + 1;
+		else
+			t += 0;
+		
+		if (t == 720){
+			t -= 720;
+			is = !is;	
+		}
 
         ctx.clearRect(0, 0, canvas.width, canvas.height);
         // store initial coordinates
@@ -470,7 +527,7 @@
 			default: console.log("ERROR. 3rd switch. " + math2PIcounter);
 		}
 		
-		if(pathOfCornerCrossing.length > 3000){
+		if(pathOfCornerCrossing.length > 500){
           pathOfCornerCrossing.reverse();
           pathOfCornerCrossing.pop();
           pathOfCornerCrossing.pop();
@@ -538,6 +595,9 @@
       };
 	  
     var startTime = (new Date()).getTime();
+	var t = 0;
+	var continueAnimating = true;
+	var is = false;
     animate(aLink, bLink, cLink, dLink, eLink, beLink, ceLink, canvas, ctx, startTime);
 				
     </script>
