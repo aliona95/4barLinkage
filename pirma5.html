@@ -59,12 +59,23 @@
 	}
 	
 }
+
     </style>
   </head>
   <body>
   <div id="container" align="center">
 	  <input type ="button" class = "button button2" value="Toggle animation" id=toggle> 
     <canvas id="myCanvas" width="800" height="800"></canvas>
+	<div id="slidecontainer">
+		<p>Adjust EF lenght</p>
+		<input type="range" min="1" max="200" value="100" class="slider" id="myRange">
+		<p>Value: <span id="demo"></span></p>
+		<p>Adjust BF lenght</p>
+		<input type="range" min="1" max="149" value="50" class="slider" id="myRange2">
+		<p>Value: <span id="demo2"></span></p>
+
+	</div>
+	</div>
     <script>
       window.requestAnimFrame = (function(callback) {
         return window.requestAnimationFrame || 
@@ -188,8 +199,8 @@
 		/*var BF = document.getElementById("BF").value; //paimti skaiciu 
 		console.log("BF" + BF);
 		var EF = document.getElementById("EF").value; //paimti skaiciu */
-		dLink.width = 125;	
-		eLink.width = 150;
+		/*dLink.width = 125;	
+		eLink.width = 150;*/
 		
 		var BE = Math.sqrt(eLink.width * eLink.width + dLink.width * dLink.width);
 		var psi = Math.acos((BE * BE + dLink.width * dLink.width - eLink.width *  eLink.width) / (2 * BE * dLink.width)); // kampas EBF
@@ -547,14 +558,14 @@
 
       var aLink = { // AB, CD
         color: '#B40431',
-        width: 150,
+        width: 90,
         off: 10,
         borderWidth: 4
       };
 
       var bLink = { // BC, AD
         color: '#B40431',
-        width: 250,
+        width: 150,
         off: 10,
         borderWidth: 4
       };
@@ -598,6 +609,26 @@
 	var t = 0;
 	var continueAnimating = true;
 	var is = false;
+	var slider = document.getElementById("myRange");
+		var slider2 = document.getElementById("myRange2");
+		var output = document.getElementById("demo");
+		var output2 = document.getElementById("demo2");
+		
+		eLink.width = 100;
+		dLink.width = 50;	
+		
+		output.innerHTML = slider.value;
+		output2.innerHTML = slider.value;
+		
+		slider.oninput = function() {
+			eLink.width = Number(this.value);
+			output.innerHTML = this.value;
+		}
+			
+		slider2.oninput = function() {
+			dLink.width = Number(this.value);
+			output2.innerHTML = this.value;
+		}
     animate(aLink, bLink, cLink, dLink, eLink, beLink, ceLink, canvas, ctx, startTime);
 				
     </script>
