@@ -7,13 +7,14 @@
         padding: 0px;
       }
 	  .button {
-		background-color: #4CAF50; /* Green */
+		background-color: #B40431; /* Green */
 		border: none;
-		color: black;
+		color: white;
 		padding: 15px 32px;
 		text-align: center;
 		text-decoration: none;
 		font-size: 16px;
+		border-radius: 10px;
 		}
 		.button2:hover {
 			box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24), 0 17px 50px 0 rgba(0,0,0,0.19);
@@ -27,11 +28,12 @@
 	.slider {
 		-webkit-appearance: none;  /* Override default CSS styles */
 		appearance: none;
-		width: 10%; /* Full-width */
-		height: 25px; /* Specified height */
+		width: 50%; /* Full-width */
+		height: 5px; /* Specified height */
 		background: #d3d3d3; /* Grey background */
 		outline: none; /* Remove outline */
-		opacity: 0.7; /* Set transparency (for mouse-over effects on hover) */
+		opacity: 0.9; /* Set transparency (for mouse-over effects on hover) */
+		border-radius: 15px;
 		-webkit-transition: .2s; /* 0.2 seconds transition on hover */
 		transition: opacity .2s;
 	}
@@ -47,35 +49,56 @@
 		appearance: none;
 		width: 25px; /* Set a specific slider handle width */
 		height: 25px; /* Slider handle height */
-		background: #4CAF50; /* Green background */
+		border-radius: 50%; 
+		background: #B40431; /* Green background */
 		cursor: pointer; /* Cursor on hover */
 	}
 
 	.slider::-moz-range-thumb {
 		width: 25px; /* Set a specific slider handle width */
 		height: 25px; /* Slider handle height */
-		background: #4CAF50; /* Green background */
+		background: #B40431; /* Green background */
+		border-radius: 50%;
 		cursor: pointer; /* Cursor on hover */
 	}
 	
 }
 
+
+
+div.relative {
+    position: relative;
+    width: 400px;
+    height: 200px;
+} 
+
+div.absolute {
+    position: absolute;
+    top: 80px;
+    right: 0;
+    width: 500px;
+    height: 100px;
+}
     </style>
   </head>
   <body>
-  <div id="container" align="center">
-	  <input type ="button" class = "button button2" value="Toggle animation" id=toggle> 
-    <canvas id="myCanvas" width="800" height="800"></canvas>
-	<div id="slidecontainer">
-		<p>Adjust EF lenght</p>
-		<input type="range" min="1" max="200" value="100" class="slider" id="myRange">
-		<p>Value: <span id="demo"></span></p>
-		<p>Adjust BF lenght</p>
-		<input type="range" min="1" max="149" value="50" class="slider" id="myRange2">
-		<p>Value: <span id="demo2"></span></p>
-
+  
+	  <div class="relative">
+		<canvas id="myCanvas" width="800" height="600"></canvas>
+		<div id="container" align="center">
+			<div class="absolute">
+			<div id="slidecontainer">
+				<p>EF = <span id="demo"></span></p>
+				<input type="range" min="1" max="200" value="100" class="slider" id="myRange">
+				<p>BF = <span id="demo2"></span></p>
+				<input type="range" min="1" max="149" value="50" class="slider" id="myRange2">
+			</div>
+			<br>
+			<input type ="button" class = "button button2" value="Pause" id=toggle> 
+			</div>
+		</div>
 	</div>
-	</div>
+	
     <script>
       window.requestAnimFrame = (function(callback) {
         return window.requestAnimationFrame || 
@@ -538,7 +561,7 @@
 			default: console.log("ERROR. 3rd switch. " + math2PIcounter);
 		}
 		
-		if(pathOfCornerCrossing.length > 500){
+		if(pathOfCornerCrossing.length > 750){
           pathOfCornerCrossing.reverse();
           pathOfCornerCrossing.pop();
           pathOfCornerCrossing.pop();
@@ -627,7 +650,11 @@
 			
 		slider2.oninput = function() {
 			dLink.width = Number(this.value);
-			output2.innerHTML = this.value;
+			if (Number(this.value) == 149){
+				output2.innerHTML = Number(this.value)+1;
+			}else{
+				output2.innerHTML = this.value;
+			}
 		}
     animate(aLink, bLink, cLink, dLink, eLink, beLink, ceLink, canvas, ctx, startTime);
 				
