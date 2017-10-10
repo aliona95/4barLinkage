@@ -142,7 +142,7 @@
 		/*var BF = document.getElementById("BF").value; //paimti skaiciu 
 		console.log("BF" + BF);
 		var EF = document.getElementById("EF").value; //paimti skaiciu */
-		dLink.width = 80;	
+		dLink.width = 125;	
 		eLink.width = 150;
 		
 		var BE = Math.sqrt(eLink.width * eLink.width + dLink.width * dLink.width);
@@ -170,7 +170,7 @@
 		// tetha pasikeicia
 		
 		// BEGALYBE
-		/*if (((th1)%(Math.PI*2)) > Math.PI){  // Math.PI * 2
+		if (((th1)%(Math.PI*2)) > Math.PI){  // Math.PI * 2
 		// APACIA pirmoji
 			ctx.rotate(Math.PI+theta);
 			cLink.width = BD; 
@@ -218,7 +218,7 @@
 			ctx.translate(bLink.width,0);
 			ctx.rotate(Math.PI + fce);
             draw(ceLink, ctx);
-		}*/
+		}
 	
 		/*//APSKRITIMAS
 		if (((th1)%(Math.PI*2)) > Math.PI){  // Math.PI * 2	
@@ -270,7 +270,7 @@
             draw(ceLink, ctx);
 		}
 		*/
-	/*	// VIRSUJ APSK, APACIOJ BEGALYBE
+		/*// VIRSUJ APSK, APACIOJ BEGALYBE
 		if (((th1)%(Math.PI*2)) > Math.PI){  // Math.PI * 2
 		// APACIA pirmoji
 			ctx.rotate(Math.PI+theta);
@@ -320,7 +320,7 @@
             draw(ceLink, ctx);
 		}
 		*/
-		// VIRSUJ BEGALYBE, APACIOJ APSKRITIMAS
+	/*	// VIRSUJ BEGALYBE, APACIOJ APSKRITIMAS
 		if (((th1)%(Math.PI*2)) > Math.PI){  // Math.PI * 2	
 // APACIA kai ta pati busena, TA PATI, KAIP VIRSUS, PIESIA APSKRITIMA
 			ctx.rotate(Math.PI+theta);
@@ -370,7 +370,7 @@
 			ctx.rotate(Math.PI + fce);
             draw(ceLink, ctx);
 		}
-		
+		*/
 
 		ctx.restore();  // M0 [M0]	
         ctx.translate(bLink.width,0);
@@ -396,11 +396,27 @@
 		
 		
 		
-		ctx.save();
+		//ctx.save();
 		var cornerCBE = calc(ceLink,bLink,beLink);
-		 pathOfCornerCrossing.push(Math.cos(-Math.PI/180*t) * aLink.width + Math.cos(-Math.PI/180*t + /*abcCrossing*/alpha - cornerCBE) * beLink.width);
-		 pathOfCornerCrossing.push(Math.sin(-Math.PI/180*t) * aLink.width + Math.sin( -Math.PI/180*t + /*abcCrossing*/alpha - cornerCBE) * beLink.width);
-		if(pathOfCornerCrossing.length > 500){
+		console.log("CORNER " + cornerCBE);
+		/*//APSKRITIMAS
+		if (((th1)%(Math.PI*2)) > Math.PI){
+		/// Math.PI+theta+beta-Math.PI+charlie blogai, bet kazkoki apskritima nupiesia
+			 pathOfCornerCrossing.push(Math.cos(-Math.PI/180*t) * aLink.width + Math.cos(-Math.PI/180*t +  Math.PI+theta+beta - cornerCBE) * beLink.width);
+			 pathOfCornerCrossing.push(Math.sin(-Math.PI/180*t) * aLink.width + Math.sin( -Math.PI/180*t + Math.PI+theta+beta - cornerCBE) * beLink.width);
+		}else{
+			 pathOfCornerCrossing.push(Math.cos(-Math.PI/180*t) * aLink.width + Math.cos(-Math.PI/180*t +  gamma - cornerCBE) * beLink.width);
+			 pathOfCornerCrossing.push(Math.sin(-Math.PI/180*t) * aLink.width + Math.sin( -Math.PI/180*t + gamma - cornerCBE) * beLink.width);
+		}*/
+		if (((th1)%(Math.PI*2)) > Math.PI){
+		/// Math.PI+theta+beta-Math.PI+charlie blogai, bet kazkoki apskritima nupiesia
+			 pathOfCornerCrossing.push(Math.cos(-Math.PI/180*t) * aLink.width + Math.cos(-Math.PI/180*t +  Math.PI+theta-beta - cornerCBE) * beLink.width);
+			 pathOfCornerCrossing.push(Math.sin(-Math.PI/180*t) * aLink.width + Math.sin( -Math.PI/180*t + Math.PI+theta-beta - cornerCBE) * beLink.width);
+		}else{
+			 pathOfCornerCrossing.push(Math.cos(-Math.PI/180*t) * aLink.width + Math.cos(-Math.PI/180*t +  Math.PI-theta+beta - cornerCBE) * beLink.width);
+			 pathOfCornerCrossing.push(Math.sin(-Math.PI/180*t) * aLink.width + Math.sin( -Math.PI/180*t + Math.PI-theta+beta - cornerCBE) * beLink.width);
+		}
+		if(pathOfCornerCrossing.length > 5000){
           pathOfCornerCrossing.reverse();
           pathOfCornerCrossing.pop();
           pathOfCornerCrossing.pop();
@@ -409,8 +425,6 @@
 		drawPath(pathOfCornerCrossing, ctx, true);
 		
 		ctx.restore();
-		
-		
 		
 		
 		
@@ -453,7 +467,7 @@
 
       var dLink = { // BF
 		color: '#B40431',
-		width: 100,
+		width: 125,
 		off: 10,
        borderWidth: 4
       };
