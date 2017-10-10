@@ -155,11 +155,12 @@
         ctx.translate(aLink.width,0);
 	
 	
-		if (((th1)%(Math.PI*8)) > 6*Math.PI){  // ketvirtas ratas prasideda
+		/*if (((th1)%(Math.PI*8)) > 6*Math.PI){  // ketvirtas ratas prasideda
 			math2PIcounter = 4;
 		}else if (((th1)%(Math.PI*6)) > 4*Math.PI && ((th1)%(Math.PI*4)) < 2*Math.PI){  // trecias ratas prasideda
 			math2PIcounter = 3;
-		}else if (((th1)%(Math.PI*4)) > 2*Math.PI){  // antras ratas prasideda
+		}else */
+		if (((th1)%(Math.PI*4)) > 2*Math.PI){  // antras ratas prasideda
 			math2PIcounter = 2;
 		}else if (((th1)%(Math.PI*2)) > 0){  // pirmas ratas prasideda
 			math2PIcounter = 1;
@@ -269,6 +270,7 @@
 					draw(ceLink, ctx);
 				}
 			break;
+/*
 			case 3:
 				//APSKRITIMAS
 				if (((th1)%(Math.PI*2)) > Math.PI){  // Math.PI * 2	
@@ -372,6 +374,7 @@
 					draw(ceLink, ctx);
 				}
 			break;
+*/
 			default: console.log("ERROR. 1st switch. " + math2PIcounter);
 		}
 		// dvi skirtingos busenos - jei atimam - viena busena, jei pridedam - kita busena
@@ -398,6 +401,7 @@
 					ctx.rotate(Math.PI + (-(-alpha - (Math.PI-theta) - beta + Math.PI-charlie)));      //????????????????????????? I KITA PUSE SUKASI CD, nebuvo minuso, kampas -alpha
 					draw(aLink, ctx);
 				break;
+/*
 				case 3:
 					//APSKRITIMAS, virsuj apskritimas - apacioj begalybe
 					ctx.rotate(alpha);      
@@ -408,6 +412,7 @@
 					ctx.rotate(Math.PI + (-(-alpha - (Math.PI-theta) - beta + Math.PI-charlie)));      //????????????????????????? I KITA PUSE SUKASI CD, nebuvo minuso, kampas -alpha
 					draw(aLink, ctx);
 				break;
+*/
 				default: console.log("ERROR. 2snd switch. " + math2PIcounter);
 			}
 		}
@@ -439,6 +444,7 @@
 					 pathOfCornerCrossing.push(Math.sin(-Math.PI/180*t) * aLink.width + Math.sin( -Math.PI/180*t + Math.PI-theta+beta - cornerCBE) * beLink.width);
 				}
 			break;
+/*
 			case 3:
 				//APSKRITIMAS
 				if (((th1)%(Math.PI*2)) > Math.PI){
@@ -460,6 +466,7 @@
 					 pathOfCornerCrossing.push(Math.sin(-Math.PI/180*t) * aLink.width + Math.sin( -Math.PI/180*t + Math.PI-theta+beta - cornerCBE) * beLink.width);
 				}
 			break;
+*/
 			default: console.log("ERROR. 3rd switch. " + math2PIcounter);
 		}
 		
